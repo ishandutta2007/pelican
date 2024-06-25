@@ -13,7 +13,6 @@ from pelican.settings import DEFAULT_CONFIG
 from pelican.tests.support import LoggedTestCase, get_context, get_settings, unittest
 from pelican.utils import path_to_url, posixize_path, truncate_html_words
 
-
 # generate one paragraph, enclosed with <p>
 TEST_CONTENT = str(generate_lorem_ipsum(n=1))
 TEST_SUMMARY = generate_lorem_ipsum(n=1, html=False)
@@ -283,7 +282,7 @@ class TestPage(TestBase):
             #
             # Until we find some other method to test this functionality, we
             # will simply skip this test.
-            unittest.skip("There is no locale %s in this system." % locale)
+            unittest.skip(f"There is no locale {locale} in this system.")
 
     def test_template(self):
         # Pages default to page, metadata overwrites
@@ -297,7 +296,6 @@ class TestPage(TestBase):
     def test_signal(self):
         def receiver_test_function(sender):
             receiver_test_function.has_been_called = True
-            pass
 
         receiver_test_function.has_been_called = False
 
@@ -316,7 +314,7 @@ class TestPage(TestBase):
         args["settings"] = settings
 
         # Tag
-        args["content"] = "A simple test, with a " '<a href="|tag|tagname">link</a>'
+        args["content"] = 'A simple test, with a <a href="|tag|tagname">link</a>'
         page = Page(**args)
         content = page.get_content("http://notmyidea.org")
         self.assertEqual(
@@ -328,9 +326,7 @@ class TestPage(TestBase):
         )
 
         # Category
-        args["content"] = (
-            "A simple test, with a " '<a href="|category|category">link</a>'
-        )
+        args["content"] = 'A simple test, with a <a href="|category|category">link</a>'
         page = Page(**args)
         content = page.get_content("http://notmyidea.org")
         self.assertEqual(
@@ -352,7 +348,7 @@ class TestPage(TestBase):
 
         # Classic intrasite link via filename
         args["content"] = (
-            "A simple test, with a " '<a href="|filename|article.rst">link</a>'
+            'A simple test, with a <a href="|filename|article.rst">link</a>'
         )
         content = Page(**args).get_content("http://notmyidea.org")
         self.assertEqual(
@@ -403,7 +399,7 @@ class TestPage(TestBase):
 
         # also test for summary in metadata
         parsed = (
-            "A simple summary test, with a " '<a href="|filename|article.rst">link</a>'
+            'A simple summary test, with a <a href="|filename|article.rst">link</a>'
         )
         linked = (
             "A simple summary test, with a "
@@ -596,7 +592,7 @@ class TestPage(TestBase):
 
         # An intrasite link via filename with %20 as a space
         args["content"] = (
-            "A simple test, with a " '<a href="|filename|article%20spaces.rst">link</a>'
+            'A simple test, with a <a href="|filename|article%20spaces.rst">link</a>'
         )
         content = Page(**args).get_content("http://notmyidea.org")
         self.assertEqual(
@@ -836,10 +832,10 @@ class TestStatic(LoggedTestCase):
 
         otherdir_settings = self.settings.copy()
         otherdir_settings.update(
-            dict(
-                PAGE_SAVE_AS=os.path.join("otherpages", "{slug}.html"),
-                PAGE_URL="otherpages/{slug}.html",
-            )
+            {
+                "PAGE_SAVE_AS": os.path.join("otherpages", "{slug}.html"),
+                "PAGE_URL": "otherpages/{slug}.html",
+            }
         )
         otherdir_page = Page(
             content="other page",
@@ -894,7 +890,7 @@ class TestStatic(LoggedTestCase):
         """
         customstatic = Static(
             content=None,
-            metadata=dict(save_as="customfoo.jpg", url="customfoo.jpg"),
+            metadata={"save_as": "customfoo.jpg", "url": "customfoo.jpg"},
             settings=self.settings,
             source_path=os.path.join("dir", "foo.jpg"),
             context=self.settings.copy(),
@@ -1068,9 +1064,9 @@ class TestStatic(LoggedTestCase):
 
         static = Static(
             content=None,
-            metadata=dict(
-                status="draft",
-            ),
+            metadata={
+                "status": "draft",
+            },
             settings=self.settings,
             source_path=os.path.join("dir", "foo.jpg"),
             context=self.settings.copy(),

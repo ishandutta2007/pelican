@@ -13,11 +13,11 @@ from pelican.generators import (
     TemplatePagesGenerator,
 )
 from pelican.tests.support import (
+    TestCaseWithCLocale,
     can_symlink,
     get_context,
     get_settings,
     unittest,
-    TestCaseWithCLocale,
 )
 from pelican.writers import Writer
 
@@ -597,9 +597,9 @@ class TestArticlesGenerator(unittest.TestCase):
         self.assertEqual(expected, abbreviated_archives)
 
         # Day archives enabled:
-        settings[
-            "DAY_ARCHIVE_SAVE_AS"
-        ] = "posts/{date:%Y}/{date:%b}/{date:%d}/index.html"
+        settings["DAY_ARCHIVE_SAVE_AS"] = (
+            "posts/{date:%Y}/{date:%b}/{date:%d}/index.html"
+        )
         settings["DAY_ARCHIVE_URL"] = "posts/{date:%Y}/{date:%b}/{date:%d}/"
         context = get_context(settings)
         generator = ArticlesGenerator(
@@ -737,9 +737,9 @@ class TestArticlesGenerator(unittest.TestCase):
             all_articles=generator.articles,
         )
 
-        settings[
-            "DAY_ARCHIVE_SAVE_AS"
-        ] = "posts/{date:%Y}/{date:%b}/{date:%d}/index.html"
+        settings["DAY_ARCHIVE_SAVE_AS"] = (
+            "posts/{date:%Y}/{date:%b}/{date:%d}/index.html"
+        )
         settings["DAY_ARCHIVE_URL"] = "posts/{date:%Y}/{date:%b}/{date:%d}/"
         context = get_context(settings)
         generator = ArticlesGenerator(
